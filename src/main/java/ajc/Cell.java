@@ -34,7 +34,7 @@ public class Cell {
     public void setSkin(String name) {}
 
     public void setColor(RGB rgb) {
-        //this.color = new Color(rgb.r, rgb.g, rgb.b);
+        this.color = new Color(rgb.r, rgb.g, rgb.b);
         //this.sColor = new Color(Math.round(rgb.r * .9), Math.round(rgb.g * .9), Math.round(rgb.b * .9));
     }
 
@@ -107,6 +107,7 @@ public class Cell {
     	//System.out.println(x + " " + y + " " + Game.border.right + " " + Game.border.width);
     	if (this.ejected) ctx.setColor(Color.blue);
     	if (this.jagged) ctx.setColor(Color.green);
+    	ctx.setColor(color);
     	ctx.drawArc((int)x - (int)s, (int)y - (int)s, (int)s * 2, (int)s * 2, 0, 360);
     	ctx.fillArc((int)x - (int)s, (int)y - (int)s, (int)s * 2, (int)s * 2, 0, 360);
     }

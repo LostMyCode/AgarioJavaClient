@@ -38,8 +38,7 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	repaint();
     	
     	Timer time = new Timer();
-    	//time.scheduleAtFixedRate(new DrawTask(), 100, 30);
-
+    	//time.scheduleAtFixedRate(new DrawTask(), 100, 50);
     }
     
     public synchronized void startGameLoop() {
@@ -81,7 +80,6 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	//ctx.fillRect(0, 100 + (int)Math.random() * 20, 122, 100);
     	
     	for (Cell cell : Game.cells) {
-    		//System.out.println(114514);
     		cell.draw(ctx);
     	}
     	
@@ -96,7 +94,7 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     
     public class DrawTask extends TimerTask {
     	public void run() {
-    		repaint();
+    		//repaint();
     		SocketHandler.send(ClientPackets.mouseMove((int)Game.border.centerX, (int)Game.border.centerY));
     		//if (!Game.spawned) SocketHandler.send(ClientPackets.spawn("none"));
     		

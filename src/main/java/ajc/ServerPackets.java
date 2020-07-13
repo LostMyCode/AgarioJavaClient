@@ -68,7 +68,7 @@ public class ServerPackets {
             updColor = (flags & 2) != 0 ? true : false;
             updSkin = (flags & 4) != 0 ? true : false;
             updName = (flags & 8) != 0 ? true : false;
-            color = updColor ? new RGB(reader.getUint8() << 16, reader.getUint8() << 8, reader.getUint8()) : null;
+            color = updColor ? new RGB(reader.getUint8() & 255, reader.getUint8() & 255, reader.getUint8() & 255) : null;
             skin = updSkin ? reader.getStringUTF8() : null;
             name = updName ? reader.getStringUTF8() : null;
             
