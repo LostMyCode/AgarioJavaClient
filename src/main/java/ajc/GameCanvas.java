@@ -16,9 +16,10 @@ import java.util.TimerTask;
 
 import ajc.Game.camera;
 
-public class GameCanvas extends Canvas implements MouseListener, MouseWheelListener, MouseMotionListener {
+public class GameCanvas extends Canvas implements MouseListener, MouseWheelListener, MouseMotionListener, Runnable {
 	private BufferedImage cImage;
 	private Graphics2D ctx;
+	private Thread th = null;
 	long lastTimeRender = System.currentTimeMillis();
 	boolean painting = false;
 
@@ -37,7 +38,21 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	repaint();
     	
     	Timer time = new Timer();
-    	time.scheduleAtFixedRate(new DrawTask(), 100, 50);
+    	//time.scheduleAtFixedRate(new DrawTask(), 100, 30);
+
+    }
+    
+    public synchronized void startGameLoop() {
+    	if (th == null) {
+    		th = new Thread(this);
+    		th.start();
+    	}
+    }
+    
+    public synchronized void stopGameLoop() {
+    	if (th != null) {
+    		th = null;
+    	}
     }
     	
     public void paint(Graphics g) {
@@ -158,5 +173,11 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
 		//System.out.print(e.getScrollAmount());
 		Game.mouseWheelMove(e.getWheelRotation());
 		//repaint();
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 }

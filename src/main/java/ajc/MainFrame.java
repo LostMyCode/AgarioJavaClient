@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
     private static long startTime = System.currentTimeMillis();
     private static long frames = 0;
     private static final long serialVersionUID = 3637327282806739934L;
-    public MainCanvas canvas;
+    public GameCanvas canvas;
     public static double mouseX, mouseY;
     public static Dimension size = new Dimension(1100, 700);
 
@@ -25,24 +25,24 @@ public class MainFrame extends JFrame {
     	//addMouseListener(new MouseEventListener());
         //addKeyListener(new KeyboardListener());
     	
-    	GameCanvas hey = new GameCanvas();
+    	canvas = new GameCanvas();
     	
     	JPanel pane = new JPanel();
     	getContentPane().add(pane);
     	
-    	hey.setPreferredSize(size);
-    	pane.add(hey);
+    	canvas.setPreferredSize(size);
+    	pane.add(canvas);
     	
     	setVisible(true);
     }
-    public void MainFrame2() {
+    public void MainFrame2() { //unused
         setSize(size);
         setMinimumSize(size);
         setMaximumSize(size);
         setPreferredSize(size);
         addMouseListener(new MouseEventListener());
         addKeyListener(new KeyboardListener());
-        canvas = new MainCanvas();
+        //canvas = new MainCanvas();
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,7 +54,7 @@ public class MainFrame extends JFrame {
     }
 
     public void render() {
-    	System.out.println(1233333);
+    	//System.out.println("Rendering canvas...");
         Point mouseP = getMouseLocation();
         mouseX = mouseP.getX();
         mouseY = mouseP.getY();
@@ -63,7 +63,7 @@ public class MainFrame extends JFrame {
         if (System.currentTimeMillis() - startTime > 1000) {
 
         }
-        canvas.repaint();
+        if (canvas != null) canvas.repaint();
     }
 
     private Point getMouseLocation() {

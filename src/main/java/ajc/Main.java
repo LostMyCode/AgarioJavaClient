@@ -9,16 +9,10 @@ public class Main {
     public Main() {}
 
     public static void main(String[] args) {
-    	
         INSTANCE = new Main();
         thread = new GameThread();
         frame = new MainFrame();
+        thread.start();
         game = new Game();
-        thread.run();
     }
-    
-    public static void updateGame() {
-    	frame.render();
-    }
-
 }
