@@ -1,9 +1,11 @@
 package ajc;
 
+import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -22,6 +24,8 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
 	private Thread th = null;
 	long lastTimeRender = System.currentTimeMillis();
 	boolean painting = false;
+	BasicStroke defaultStroke = new BasicStroke(1);
+	BasicStroke borderLength = new BasicStroke(50);
 
     public GameCanvas() {
     	addMouseListener(this);
@@ -31,6 +35,11 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	
     	cImage = new BufferedImage(MainFrame.size.width, MainFrame.size.height, BufferedImage.TYPE_INT_RGB);
     	ctx = (Graphics2D) cImage.getGraphics();
+    	
+    	ctx.setRenderingHint(
+    			RenderingHints.KEY_ANTIALIASING,
+    			RenderingHints.VALUE_ANTIALIAS_ON
+        );
     	
     	ctx.setColor(Color.black);
     	ctx.fillRect(0, 0, MainFrame.size.width, MainFrame.size.height);
@@ -115,7 +124,9 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     }
     
     public void drawBorders() {
+    	ctx.setStroke(borderLength);
     	ctx.drawRect((int)Game.border.left, (int)Game.border.top, (int)Game.border.width, (int)Game.border.height);
+    	ctx.setStroke(defaultStroke);
     }
     
     public void toCamera() {
