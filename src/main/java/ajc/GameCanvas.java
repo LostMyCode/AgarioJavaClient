@@ -5,6 +5,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -47,7 +49,7 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	repaint();
     	
     	Timer time = new Timer();
-    	//time.scheduleAtFixedRate(new DrawTask(), 100, 50);
+    	time.scheduleAtFixedRate(new DrawTask(), 100, 50);
     }
     
     public synchronized void startGameLoop() {
@@ -102,11 +104,29 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     
     public class DrawTask extends TimerTask {
     	public void run() {
-    		//repaint();
-    		SocketHandler.send(ClientPackets.mouseMove((int)Game.border.centerX, (int)Game.border.centerY));
+            Point mouseP = getMouseLocation();
+            double mouseX = mouseP.getX();
+            double mouseY = mouseP.getY();
+            
+    		SocketHandler.send(
+    			ClientPackets.mouseMove(
+    				//(int)Game.border.centerX, 
+    				//(int)Game.border.centerY
+    				(int)((mouseX - MainFrame.size.width / 2) / Game.camera.scale + Game.camera.x),
+    				(int)((mouseY - MainFrame.size.height / 2) / Game.camera.scale + Game.camera.y)
+    			)
+    		);
     		//if (!Game.spawned) SocketHandler.send(ClientPackets.spawn("none"));
     		
     	}
+    	
+        private Point getMouseLocation() {
+            Point location = MouseInfo.getPointerInfo().getLocation();
+            Point locationOnScreen = getLocationOnScreen();
+            int x = location.x - locationOnScreen.x;
+            int y = location.y - locationOnScreen.y;
+            return new Point(x, y);
+        }
     }
     
     public void cameraUpdate() {

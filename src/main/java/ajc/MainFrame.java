@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
     private static long startTime = System.currentTimeMillis();
-    private static long frames = 0;
     private static final long serialVersionUID = 3637327282806739934L;
     public GameCanvas canvas;
     public static double mouseX, mouseY;
@@ -55,23 +54,7 @@ public class MainFrame extends JFrame {
 
     public void render() {
     	//System.out.println("Rendering canvas...");
-        Point mouseP = getMouseLocation();
-        mouseX = mouseP.getX();
-        mouseY = mouseP.getY();
-        frames++;
-
-        if (System.currentTimeMillis() - startTime > 1000) {
-
-        }
         if (canvas != null) canvas.repaint();
-    }
-
-    private Point getMouseLocation() {
-        Point location = MouseInfo.getPointerInfo().getLocation();
-        Point locationOnScreen = getLocationOnScreen();
-        int x = location.x - locationOnScreen.x;
-        int y = location.y - locationOnScreen.y - 24;
-        return new Point(x, y);
     }
         
 }
