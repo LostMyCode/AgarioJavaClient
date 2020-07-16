@@ -63,7 +63,9 @@ public class Game {
     }
     
     public static void mouseWheelMove(int d) {
-    	camera.userZoom = d > 0 ? 0.8 : 1.2;
+    	if (camera.scale > 0.03 && d > 0) camera.userZoom = 0.8;
+    	else if (camera.scale < 2 && d < 0) camera.userZoom = 1.2;
+    	log("" + camera.scale);
     	//camera.userZoom = Math.max(camera.userZoom, 0.1);
     	//camera.userZoom = Math.min(camera.userZoom, 4);
     }
