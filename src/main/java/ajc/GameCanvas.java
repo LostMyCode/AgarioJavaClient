@@ -117,6 +117,7 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     		//Game.camera.x += (Game.camera.target.x - Game.camera.x) / 20;
     		//Game.camera.y += (Game.camera.target.y - Game.camera.y) / 20; 
     	}
+    	
     	Game.camera.target.scale *= Game.camera.viewportScale;
     	Game.camera.target.scale *= Game.camera.userZoom;
     	Game.camera.scale += (Game.camera.target.scale - Game.camera.scale) / 9;

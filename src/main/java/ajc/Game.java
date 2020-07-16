@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jetty.websocket.api.Session;
@@ -13,8 +14,8 @@ import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 public class Game {
     // static is needed?? (err in server packets)
-    public static List<Cell> cells = new ArrayList<Cell>();
-    public static List<Cell> myCells = new ArrayList<Cell>();
+    public static List<Cell> cells = new CopyOnWriteArrayList<Cell>();
+    public static List<Cell> myCells = new CopyOnWriteArrayList<Cell>();
     public static long syncUpdStamp, syncAppStamp;
     public static SocketHandler socket;
     public static boolean mapCenterSet = false;
