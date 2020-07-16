@@ -62,12 +62,12 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     		th = null;
     	}
     }
-    	
+    
+    public void update(Graphics g) { // override to fix flickering
+		paint(g);
+	}
+    
     public void paint(Graphics g) {
-    	if (painting) {
-    		return;
-    	}
-    	painting = true;
     	//ctx = (Graphics2D) cImage.getGraphics();
     	//System.out.println(Game.camera.userZoom);
     	ctx.setColor(Color.black);
@@ -98,7 +98,6 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	
     	g.drawImage(cImage, 0, 0, null);
     	//g.dispose();
-    	painting = false;
     }
     
     public class DrawTask extends TimerTask {
