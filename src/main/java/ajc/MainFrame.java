@@ -15,7 +15,7 @@ public class MainFrame extends JFrame {
     private static final long serialVersionUID = 3637327282806739934L;
     public GameCanvas canvas;
     public static double mouseX, mouseY;
-    public static Dimension size = new Dimension(1100, 700);
+    public static Dimension size = new Dimension(1280, 720);
 
     public MainFrame() {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

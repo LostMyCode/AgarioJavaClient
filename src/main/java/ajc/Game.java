@@ -82,12 +82,12 @@ public class Game {
     }
     
     public static class border {
-    	public static double left = -2000;
-    	public static double right = 2000;
-    	public static double top = -2000;
-    	public static double bottom = 2000;
-    	public static double width = 4000;
-    	public static double height = 4000;
+    	public static int left = -7070;
+    	public static int right = 7070;
+    	public static int top = -7070;
+    	public static int bottom = 7070;
+    	public static int width = 14141;
+    	public static int height = 14141;
     	public static double centerX = -1, centerY = -1;
     }
     

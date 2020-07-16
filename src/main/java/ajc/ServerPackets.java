@@ -113,10 +113,10 @@ public class ServerPackets {
     }
     
     void setBorder(BufferReader reader) {
-    	Game.border.left = reader.getFloat64();
-    	Game.border.top = reader.getFloat64();
-    	Game.border.right = reader.getFloat64();
-    	Game.border.bottom = reader.getFloat64();
+    	Game.border.left = (int)reader.getFloat64();
+    	Game.border.top = (int)reader.getFloat64();
+    	Game.border.right = (int)reader.getFloat64();
+    	Game.border.bottom = (int)reader.getFloat64();
     	Game.border.width =  Game.border.right - Game.border.left;
     	Game.border.height = Game.border.bottom - Game.border.top;
     	Game.border.centerX = (Game.border.left + Game.border.right) / 2;

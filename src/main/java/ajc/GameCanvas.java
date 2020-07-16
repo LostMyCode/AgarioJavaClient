@@ -23,7 +23,6 @@ import ajc.Game.camera;
 public class GameCanvas extends Canvas implements MouseListener, MouseWheelListener, MouseMotionListener, Runnable {
 	private BufferedImage cImage;
 	private Graphics2D ctx;
-	private Thread th = null;
 	long lastTimeRender = System.currentTimeMillis();
 	boolean painting = false;
 	BasicStroke defaultStroke = new BasicStroke(1);
@@ -52,30 +51,16 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	time.scheduleAtFixedRate(new DrawTask(), 100, 50);
     }
     
-    public synchronized void startGameLoop() {
-    	if (th == null) {
-    		th = new Thread(this);
-    		th.start();
-    	}
-    }
-    
-    public synchronized void stopGameLoop() {
-    	if (th != null) {
-    		th = null;
-    	}
-    }
-    
     public void update(Graphics g) { // override to fix flickering
 		paint(g);
 	}
     
     public void paint(Graphics g) {
-    	//ctx = (Graphics2D) cImage.getGraphics();
-    	//System.out.println(Game.camera.userZoom);
-    	ctx.setColor(Color.black);
-    	ctx.clearRect(0, 0, MainFrame.size.width, MainFrame.size.height);
-    	ctx.setColor(Color.cyan);
-    	//ctx.fillRect(0, 19, 100, 100);
+    	ctx.clearRect(0, 0, MainFrame.size.width, MainFrame.size.height); // clear canvas
+    	
+    	ctx.setColor(new Color(77, 0, 0));
+    	ctx.fillRect(0, 0, MainFrame.size.width, MainFrame.size.height);
+
     	Game.cells.removeIf(i -> { return i.destroyed; });
     	for (Cell cell : Game.cells) {
     		cell.update(System.currentTimeMillis());
@@ -86,20 +71,16 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	ctx.setColor(Color.cyan);
     	
     	toCamera();
+    	drawBackground();
     	drawBorders();
-    	
-    	//ctx.fillRect(0, 100 + (int)Math.random() * 20, 122, 100);
     	
     	for (Cell cell : Game.cells) {
     		cell.draw(ctx);
     	}
     	
     	fromCamera();
-
-    	//ctx.scale(Game.camera.userZoom, Game.camera.userZoom);
     	
     	g.drawImage(cImage, 0, 0, null);
-    	//g.dispose();
     }
     
     public class DrawTask extends TimerTask {
@@ -110,8 +91,6 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
             
     		SocketHandler.send(
     			ClientPackets.mouseMove(
-    				//(int)Game.border.centerX, 
-    				//(int)Game.border.centerY
     				(int)((mouseX - MainFrame.size.width / 2) / Game.camera.scale + Game.camera.x),
     				(int)((mouseY - MainFrame.size.height / 2) / Game.camera.scale + Game.camera.y)
     			)
@@ -144,9 +123,15 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     }
     
     public void drawBorders() {
+    	ctx.setColor(new Color(200, 0, 0));
     	ctx.setStroke(borderLength);
-    	ctx.drawRect((int)Game.border.left, (int)Game.border.top, (int)Game.border.width, (int)Game.border.height);
+    	ctx.drawRect(Game.border.left, Game.border.top, Game.border.width, Game.border.height);
     	ctx.setStroke(defaultStroke);
+    }
+    
+    public void drawBackground() {
+    	ctx.setColor(new Color(46, 46, 46));
+    	ctx.fillRect(Game.border.left, Game.border.top, Game.border.width, Game.border.height);
     }
     
     public void toCamera() {

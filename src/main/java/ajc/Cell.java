@@ -105,7 +105,7 @@ public class Cell {
     
     public void drawShape(Graphics2D ctx) {
     	//System.out.println(x + " " + y + " " + Game.border.right + " " + Game.border.width);
-    	if (this.ejected) ctx.setColor(Color.blue);
+    	//if (this.ejected) ctx.setColor(Color.blue);
     	if (this.jagged) ctx.setColor(Color.green);
     	ctx.setColor(color);
     	ctx.drawArc((int)x - (int)s, (int)y - (int)s, (int)s * 2, (int)s * 2, 0, 360);
