@@ -61,7 +61,7 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     	ctx.setColor(new Color(77, 0, 0));
     	ctx.fillRect(0, 0, MainFrame.size.width, MainFrame.size.height);
 
-    	Game.cells.removeIf(i -> { return i.destroyed; });
+    	//Game.cells.removeIf(i -> { return i.destroyed; });
     	for (Cell cell : Game.cells) {
     		cell.update(System.currentTimeMillis());
     	}
@@ -95,7 +95,7 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     				(int)((mouseY - MainFrame.size.height / 2) / Game.camera.scale + Game.camera.y)
     			)
     		);
-    		//if (!Game.spawned) SocketHandler.send(ClientPackets.spawn("none"));
+    		if (!Game.spawned) SocketHandler.send(ClientPackets.spawn("none"));
     		
     	}
     	
@@ -109,15 +109,42 @@ public class GameCanvas extends Canvas implements MouseListener, MouseWheelListe
     }
     
     public void cameraUpdate() {
-    	if (Game.myCells.size() > 0) {
-    		
+    	if (Game.myCellsIds.size() > 0) {
+    		int x = 0, 
+    			y = 0, 
+    			s = 0, 
+    			score = 0,
+    			l = Game.myCellsIds.size();
+    		boolean noIndex = false;
+    		for (int id : Game.myCellsIds) {
+    			int index = Game.indexOfCell((long) id);
+    			if (index == -1) {
+    				noIndex = true;
+    				continue;
+    			}
+    			Cell cell = Game.cells.get(index);
+    			score += (int)(cell.ns * cell.ns / 100);
+    			x += cell.x;
+    			y += cell.y;
+    			s += cell.s;
+    		}
+    		if (!noIndex) {
+    			camera.target.x = x / l;
+        		camera.target.y = y / l;
+        		camera.sizeScale = (int) Math.pow(Math.min(64 / s, 1), 0.4);
+    		}
+    		Game.camera.target.scale *= Game.camera.viewportScale;
+        	Game.camera.target.scale *= Game.camera.userZoom;
+        	Game.camera.x = (Game.camera.target.x + Game.camera.x) / 2;
+        	Game.camera.y = (Game.camera.target.y + Game.camera.y) / 2;
     	} else {
     		//Game.camera.x += (Game.camera.target.x - Game.camera.x) / 20;
     		//Game.camera.y += (Game.camera.target.y - Game.camera.y) / 20; 
+    		Game.camera.target.scale *= Game.camera.viewportScale;
+        	Game.camera.target.scale *= Game.camera.userZoom;
     	}
     	
-    	Game.camera.target.scale *= Game.camera.viewportScale;
-    	Game.camera.target.scale *= Game.camera.userZoom;
+    	
     	Game.camera.scale += (Game.camera.target.scale - Game.camera.scale) / 9;
     	if (Game.camera.userZoom != 1) Game.camera.userZoom = 1;
     }

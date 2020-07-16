@@ -60,7 +60,7 @@ public class Cell {
         if (this.destroyed && System.currentTimeMillis() > this.dead + 200) {
             //cells.list.remove(this);
         	//Game.log("dead");
-        	
+        	remove();
         	//if (Game.indexOfCell(this.id) != -1) Game.cells.remove(Game.indexOfCell(this.id));
         	//if (Game.indexOfCell(this.id) != -1) Game.myCells.remove(Game.indexOfCell(this.id));
         } else if (this.diedBy != 0 && indexOfCell != -1) {
@@ -75,14 +75,18 @@ public class Cell {
     }
     
     public void remove() {
-    	if (Game.indexOfCell(this.id) != -1) Game.cells.remove(Game.indexOfCell(this.id));
-    	if (Game.indexOfCell(this.id) != -1) Game.myCells.remove(Game.indexOfCell(this.id));
+    	int index = Game.indexOfCell(this.id);
+    	if (index != -1) Game.cells.remove(index);
+    	
+    	index = Game.myCellsIds.indexOf((int) this.id);
+    	if (index != -1) Game.myCellsIds.remove(index);
     }
 
     public void destroy(long killerId) {
     	//Game.log("dead destroy");
         //if (Game.indexOfCell(this.id) != -1) Game.cells.remove(Game.indexOfCell(this.id));
         //if (Game.indexOfCell(this.id) != -1) Game.myCells.remove(Game.indexOfCell(this.id));
+    	
         this.destroyed = true;
         this.dead = Game.syncUpdStamp;
 

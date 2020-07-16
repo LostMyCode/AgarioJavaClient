@@ -16,6 +16,7 @@ public class Game {
     // static is needed?? (err in server packets)
     public static List<Cell> cells = new CopyOnWriteArrayList<Cell>();
     public static List<Cell> myCells = new CopyOnWriteArrayList<Cell>();
+    public static List<Integer> myCellsIds = new CopyOnWriteArrayList<Integer>();
     public static long syncUpdStamp, syncAppStamp;
     public static SocketHandler socket;
     public static boolean mapCenterSet = false;
@@ -41,6 +42,13 @@ public class Game {
     public static void log(String ... args) {
     	String c = "";
     	for (String s : args) {
+    		c += " " + s;
+    	}
+    	System.out.println(c);
+    }
+    public static void log(int ... args) {
+    	String c = "";
+    	for (int s : args) {
     		c += " " + s;
     	}
     	System.out.println(c);

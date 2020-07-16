@@ -23,6 +23,7 @@ public class ServerPackets {
                 
             case 32:
             	Game.spawned = true;
+            	Game.myCellsIds.add(reader.getUint32());
             	break;
                 
             case 64:
